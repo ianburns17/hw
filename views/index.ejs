@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <h1>Task Manager</h1>
+
+    <!-- Add Task Form -->
+    <form action="/add-task" method="POST">
+        <input type="text" name="title" placeholder="Task Title" required>
+        <input type="text" name="description" placeholder="Description">
+        <button type="submit">Add Task</button>
+    </form>
+
+    <!-- Search Bar -->
+    <form action="/" method="GET" style="display: flex; justify-content: center; margin-bottom: 20px;">
+        <input type="text" name="search" placeholder="Search tasks" value="<%= searchQuery %>" style="padding: 10px; font-size: 1rem; width: 100%; max-width: 400px;">
+        <button type="submit">Search</button>
+    </form>
+
+
+
+  
+    <ul>
+        <% tasks.forEach(task => { %>
+            <li class="<%= task.completed ? 'completed' : '' %>">
+                <div>
+                    <strong><%= task.title %></strong> - <%= task.description %>
+                    
+                <form action="/toggle-task/<%= task.id %>" method="POST" style="display:inline;">
+                    <button type="submit"><%= task.completed ? 'Undo' : 'Complete' %></button>
+                </form>
+                <form action="/delete-task/<%= task.id %>" method="POST" style="display:inline;">
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
+        <% }) %>
+
+        <!-- Delete All Button -->
+        <form action="/delete-all" method="POST" style="display:inline;">
+            <button class="delete-all" type="submit">Delete ALL</button>
+        </form>
+    </ul>
+</body>
+</html>
